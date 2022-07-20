@@ -58,7 +58,6 @@ function populateShows(shows) {
   const backupImage = "https://tinyurl.com/tv-missing";
 
   for (let show of shows) {
-
     const $show = $(
       `<div data-show-id="${show.id}" class="Show col-md-12 col-lg-6 mb-4">
          <div class="media">
