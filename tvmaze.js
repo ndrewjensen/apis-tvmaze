@@ -22,7 +22,7 @@ async function getShowsByTerm(searchTerm) {
       id: show.show.id,
       name: show.show.name,
       summary: show.show.summary,
-      image: show.show.image.original
+      image: show.show.image
     });
   }
 
@@ -55,16 +55,15 @@ async function getShowsByTerm(searchTerm) {
 
 function populateShows(shows) {
   $showsList.empty();
+  const backupImage = "https://tinyurl.com/tv-missing";
 
   for (let show of shows) {
-    if (!show.image) {
 
-    }
     const $show = $(
       `<div data-show-id="${show.id}" class="Show col-md-12 col-lg-6 mb-4">
          <div class="media">
            <img
-              src="http://static.tvmaze.com/uploads/images/medium_portrait/160/401704.jpg"
+              src=${show.image ? show.image.original : backupImage}
               alt="Bletchly Circle San Francisco"
               class="w-25 me-3">
            <div class="media-body">
