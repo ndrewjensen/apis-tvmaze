@@ -14,8 +14,21 @@ const $searchForm = $("#searchForm");
 
 async function getShowsByTerm(searchTerm) {
   // ADD: Remove placeholder & make request to TVMaze search shows API.
-    const response = await axios.get(`http://api.tvmaze.com/search/shows?q=${searchTerm}`);
-    console.log(response.data[0].show.id)
+  const response = await axios.get(`http://api.tvmaze.com/search/shows?q=${searchTerm}`);
+
+  let shows = [];
+  for (let show of response.data) {
+    shows.push({
+      id: show.show.id,
+      name: show.show.name,
+      summary: show.show.summary,
+      image: show.show.image.original
+    });
+  }
+
+
+  return shows;
+
 
   // return [
   //   {
@@ -44,8 +57,11 @@ function populateShows(shows) {
   $showsList.empty();
 
   for (let show of shows) {
+    if (!show.image) {
+
+    }
     const $show = $(
-        `<div data-show-id="${show.id}" class="Show col-md-12 col-lg-6 mb-4">
+      `<div data-show-id="${show.id}" class="Show col-md-12 col-lg-6 mb-4">
          <div class="media">
            <img
               src="http://static.tvmaze.com/uploads/images/medium_portrait/160/401704.jpg"
@@ -62,7 +78,8 @@ function populateShows(shows) {
        </div>
       `);
 
-    $showsList.append($show);  }
+    $showsList.append($show);
+  }
 }
 
 
