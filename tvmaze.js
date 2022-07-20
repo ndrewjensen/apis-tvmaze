@@ -14,6 +14,7 @@ const $searchForm = $("#searchForm");
 
 async function getShowsByTerm(searchTerm) {
   const response = await axios.get(`http://api.tvmaze.com/search/shows?q=${searchTerm}`);
+  const backupImage = "https://tinyurl.com/tv-missing";
 
   let shows = [];
   for (let show of response.data) {
@@ -21,8 +22,8 @@ async function getShowsByTerm(searchTerm) {
       id: show.show.id,
       name: show.show.name,
       summary: show.show.summary,
-      image: show.show.image
-    });
+      image: show.show.image ? show.show.image.original : backupImage
+    }); //TODO: use map
   }
   return shows;
 }
@@ -31,14 +32,13 @@ async function getShowsByTerm(searchTerm) {
 
 function populateShows(shows) {
   $showsList.empty();
-  const backupImage = "https://tinyurl.com/tv-missing";
 
   for (let show of shows) {
     const $show = $(
       `<div data-show-id="${show.id}" class="Show col-md-12 col-lg-6 mb-4">
          <div class="media">
            <img
-              src=${show.image ? show.image.original : backupImage}
+              src=${show.image}
               alt="Bletchly Circle San Francisco"
               class="w-25 me-3">
            <div class="media-body">
@@ -79,8 +79,34 @@ $searchForm.on("submit", async function (evt) {
  *      { id, name, season, number }
  */
 
-// async function getEpisodesOfShow(id) { }
+async function getEpisodesOfShow(id) {
+  const response  = await axios.get(`http://api.tvmaze.com/shows/${id}/episodes`)
+  let episodes  = [];
+  for(let episode of response.data) {
+    episodes.push( {
+      id: episode.id,
+      name: episode.name,
+      season: episode.season,
+      number: episode.number,
+    })
+  }
+  return episodes;
+}
 
-/** Write a clear docstring for this function... */
+/** pass in array of episode objects and populate it into the episode list id*/
 
-// function populateEpisodes(episodes) { }
+function populateEpisodes(episodes) {
+
+  $('#episodesList').append($('<li>'))
+    .text(`${episodes.name}`)
+
+
+ }
+
+ function handleEpisodeClick(evt) {
+  )
+  populateEpisodes();
+ }
+
+ /** add listener to episodes button */
+ $('showsList').on('click','.Show-getEpisodes',handleEpisodeClick)
