@@ -93,7 +93,7 @@ async function getEpisodesOfShow(id) {
 /** pass in array of episode objects and populate it into the episode list id*/
 
 function populateEpisodes(episodes) {
-  console.log(episodes);
+  $('#episodesList').html('');
   $('#episodesArea').css('display', '');
   for (let episode of episodes) {
     $('#episodesList')
