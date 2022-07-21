@@ -3,7 +3,7 @@
 const $showsList = $("#showsList");
 const $episodesArea = $("#episodesArea");
 const $searchForm = $("#searchForm");
-//add api base url
+const API_BASE_URL = 'http://api.tvmaze.com';
 const BACKUP_IMAGE = "https://tinyurl.com/tv-missing";
 
 
@@ -15,7 +15,7 @@ const BACKUP_IMAGE = "https://tinyurl.com/tv-missing";
  */
 
 async function getShowsByTerm(searchTerm) {
-  const response = await axios.get(`http://api.tvmaze.com/search/shows?q=${searchTerm}`);
+  const response = await axios.get(`${API_BASE_URL}/search/shows?q=${searchTerm}`);
 
   return response.data.map(show => {
     return {
@@ -79,7 +79,7 @@ $searchForm.on("submit", async function (evt) {
  */
 
 async function getEpisodesOfShow(id) {
-  const response = await axios.get(`http://api.tvmaze.com/shows/${id}/episodes`);
+  const response = await axios.get(`${API_BASE_URL}/shows/${id}/episodes`);
   return response.data.map(episode => {
     return {
       id: episode.id,
